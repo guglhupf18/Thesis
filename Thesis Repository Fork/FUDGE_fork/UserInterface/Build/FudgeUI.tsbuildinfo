@@ -1,0 +1,66 @@
+{
+  "bundle": {
+    "commonSourceDirectory": "e:/DAta/GitHub/FUDGE/UserInterface/Source/",
+    "sourceFiles": [
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIElements/UIElements.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIEvent/UIEvent.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIGenerator/UIGenerator.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIListControllers/UIAnimationList.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIListControllers/UIListElements.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIListControllers/UINodeList.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIMultiLevelMenu/UIMultiLevelMenu.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIMutable/UIMutable.ts",
+      "e:/DAta/GitHub/FUDGE/UserInterface/Source/UIMutable/UINodeData.ts"
+    ],
+    "js": {
+      "sections": [
+        {
+          "pos": 0,
+          "end": 13,
+          "kind": "prologue",
+          "data": "use strict"
+        },
+        {
+          "pos": 15,
+          "end": 31133,
+          "kind": "text"
+        }
+      ],
+      "sources": {
+        "prologues": [
+          {
+            "file": 0,
+            "text": "",
+            "directives": [
+              {
+                "pos": -1,
+                "end": -1,
+                "expression": {
+                  "pos": -1,
+                  "end": -1,
+                  "text": "use strict"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "dts": {
+      "sections": [
+        {
+          "pos": 0,
+          "end": 56,
+          "kind": "reference",
+          "data": "../../Core/Build/FudgeCore.d.ts"
+        },
+        {
+          "pos": 58,
+          "end": 7121,
+          "kind": "text"
+        }
+      ]
+    }
+  },
+  "version": "3.5.3"
+}
