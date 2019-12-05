@@ -440,12 +440,13 @@ namespace FudgeCore {
       matrix.data.set([
         2 / (_right - _left), 0, 0, -((_right + _left) / (_right - _left)),
         0, 2 / (_top - _bottom), 0, -((_top + _bottom) / (_top - _bottom)),
-        0, 0, -2 / (_far - _near), -((_far + _near) / (_far - _near)),
+        0, 0, (-2 ) / (_far - _near), -((_far + _near) / (_far - _near)),
         0, 0, 0, 1
 
       ]);
       return matrix;
       
+    
     }
 
     /**

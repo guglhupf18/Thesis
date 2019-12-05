@@ -38,8 +38,7 @@ namespace Minimal {
         cmpCamera.setType(ƒ.CameraOrthographic);
         
 
-       // cmpCamera.pivot.translate(new ƒ.Vector3(1, 0, 5));
-
+        cmpCamera.pivot.translate(new ƒ.Vector3(1, 0, 5));
      //   cmpCamera.camera.fieldOfView = 90;
 //cmpCamera.camera.aspectRatio = 1;
               //camera.pivot.rotateX(10);

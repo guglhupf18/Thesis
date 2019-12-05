@@ -77,7 +77,7 @@ var AudioTest;
             mtxBody.translation = position;
             ƒ.RenderManager.update();
             viewport.draw();
-            printInfo(body, viewport.camera.getContainer());
+            printInfo(body, viewport.cmpCamera.getContainer());
         }
     }
     function printInfo(_body, _camera) {

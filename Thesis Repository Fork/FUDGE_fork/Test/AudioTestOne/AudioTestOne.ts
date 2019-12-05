@@ -99,7 +99,7 @@ namespace AudioTest {
 
             ƒ.RenderManager.update();
             viewport.draw();
-            printInfo(body, viewport.camera.getContainer());
+            printInfo(body, viewport.cmpCamera.getContainer());
         }
     }
 

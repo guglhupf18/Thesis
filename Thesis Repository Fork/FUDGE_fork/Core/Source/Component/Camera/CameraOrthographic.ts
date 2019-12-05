@@ -14,30 +14,24 @@ namespace FudgeCore {
      */
     export class CameraOrthographic extends Camera {
 
-        private left: number = 0;
-        private right: number = null;
-        private bottom: number = null;
+        public left: number = 0;
+        private right: number = 400;
+        private bottom: number = 400;
         private top: number = 0;
-   //     private near: number = -400;
-     //   private far: number = 400;
+        private near: number = 400;
+        private far: number = -400;
 
         constructor() {
             super();
             this.left = 0;
-            this.right  = RenderManager.getCanvas().width; // TODO: halbiert den Wert im output
-            this.bottom = RenderManager.getCanvas().height;
+            this.right  = 600; 
+            this.bottom = 400;
             this.top = 0;
             this.projection = PROJECTION.ORTHOGRAPHIC;
-            this.direction = FIELD_OF_VIEW.HORIZONTAL;
-            
-            console.log("right + " + this.right);
-            console.log("left + " + this.left);
-            console.log("top  +  " + this.top);
-            console.log("bot + " + this.bottom);  
-            
-          //  this.transform = Matrix4x4.PROJECTION_ORTHOGRAPHIC(0, this._right, this._bottom, this._top, this._near, this._far);
+         
+            this.transform = Matrix4x4.PROJECTION_ORTHOGRAPHIC(this.left, this.right, this.bottom, this.top, this.near, this.far);
 
-            this.transform = Matrix4x4.PROJECTION_ORTHOGRAPHIC(0, 400, 400, 0, -400, 400);
+          //  this.transform = Matrix4x4.PROJECTION_ORTHOGRAPHIC(0, 400, 400, 0, -400, 400);
            // console.log(this.transform);
           
         }

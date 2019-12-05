@@ -100,6 +100,17 @@ namespace FudgeCore {
             return Rectangle.GET(0, 0, tanHorizontal * 2, tanVertical * 2);
         }
 
-        
+           /**
+         * Returns the multiplikation of the worldtransformation of the camera container with the projection matrix
+         * @returns the world-projection-matrix
+         */
+        public get ViewProjectionMatrix(): Matrix4x4 {
+            let world: Matrix4x4 = this.pivot;
+           
+            let viewMatrix: Matrix4x4 = Matrix4x4.INVERSION(world);
+            return Matrix4x4.MULTIPLICATION(this.transform, viewMatrix);
+        }
     }
+
+    
 }

@@ -1165,16 +1165,9 @@ declare namespace FudgeCore {
      * @authors Jascha Karagöl, HFU, 2019 | Jirka Dell'Oro-Friedl, HFU, 2019
      */
     class ComponentCamera extends Component {
-        camera: Camera;
+        camera: any;
         pivot: Matrix4x4;
-        projection: PROJECTION;
-        transform: Matrix4x4;
         setType<T extends Camera>(_class: new () => T): void;
-        /**
-         * Returns the multiplikation of the worldtransformation of the camera container with the projection matrix
-         * @returns the world-projection-matrix
-         */
-        readonly ViewProjectionMatrix: Matrix4x4;
         serialize(): Serialization;
         deserialize(_serialization: Serialization): Serializable;
         getMutatorAttributeTypes(_mutator: Mutator): MutatorAttributeTypes;
@@ -1335,6 +1328,11 @@ declare namespace FudgeCore {
         * Return the calculated normed dimension of the projection space
         */
         getProjectionRectangle(): Rectangle;
+        /**
+      * Returns the multiplikation of the worldtransformation of the camera container with the projection matrix
+      * @returns the world-projection-matrix
+      */
+        readonly ViewProjectionMatrix: Matrix4x4;
     }
 }
 declare namespace FudgeCore {
@@ -1359,10 +1357,12 @@ declare namespace FudgeCore {
      * @param _top The positionvalue of the projectionspace's top border.(Default = 0)
      */
     class CameraOrthographic extends Camera {
-        private left;
+        left: number;
         private right;
         private bottom;
         private top;
+        private near;
+        private far;
         constructor();
     }
 }
@@ -1678,7 +1678,7 @@ declare namespace FudgeCore {
     class Viewport extends EventTarget {
         private static focus;
         name: string;
-        camera: ComponentCamera;
+        cmpCamera: ComponentCamera;
         rectSource: Rectangle;
         rectDestination: Rectangle;
         frameClientToCanvas: FramingScaled;

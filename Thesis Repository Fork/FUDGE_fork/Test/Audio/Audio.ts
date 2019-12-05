@@ -99,7 +99,7 @@ namespace AudioTest {
             // let ctxCamera: ƒ.Matrix4x4 = viewport.camera.getContainer().cmpTransform.local;
             // ctxCamera.lookAt(position);
             viewport.draw();
-            printInfo(body, viewport.camera.getContainer());
+            printInfo(body, viewport.cmpCamera.getContainer());
         }
     }
 
@@ -123,7 +123,7 @@ namespace AudioTest {
 
         function move(_event: ƒ.KeyboardEventƒ): void {
             const mtxBody: ƒ.Matrix4x4 = _body.cmpTransform.local;
-            let mtxCamera: ƒ.Matrix4x4 = _viewport.camera.getContainer().cmpTransform.local;
+            let mtxCamera: ƒ.Matrix4x4 = _viewport.cmpCamera.getContainer().cmpTransform.local;
 
             mtxBody.translateZ(0.1 *
                 (_event.code == ƒ.KEYBOARD_CODE.ARROW_UP || _event.code == ƒ.KEYBOARD_CODE.W ? -1 :

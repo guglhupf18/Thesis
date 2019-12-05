@@ -232,7 +232,7 @@ namespace FudgeCore {
                 finalTransform = _node.mtxWorld; // caution, RenderManager is a reference...
 
             // multiply camera matrix
-            let projection: Matrix4x4 = Matrix4x4.MULTIPLICATION(_cmpCamera.ViewProjectionMatrix, finalTransform);
+            let projection: Matrix4x4 = Matrix4x4.MULTIPLICATION(_cmpCamera.camera.ViewProjectionMatrix, finalTransform);
 
             _drawNode(_node, finalTransform, projection);
 
