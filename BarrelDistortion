@@ -1,0 +1,109 @@
+Implementing fisheye with barrel distortion
+Fisheye is an effect in which a scene looks sphered. As a result, edges in the scene look curved and bowed around the center of this virtual sphere. This effect makes the scene look like wrapped around a curved surface.
+
+The barrel distortion technique is used to achieve the present effect, which can be applied to fragments or vertices. This recipe will implement the barrel distortion on the fragment shader first and then apply it to the vertex shader. The difference between the two is this; in the former shader, the geometry does not distort. However, texture coordinates are distorted, resulting in a magnifying lens effect or a fisheye lens effect. In the latter technique, the geometry is displaced and creates different amusing distorted shapes. Note that this is not a post processing technique.
+
+Getting ready
+For this recipe, we can reuse our first recipe and replace the edge detection logic with the current barrel distortion fragment shader: BarrelDistFishEyeFragment.glsl.
+
+How to do it...
+Modify the BarrelDistFishEyeFragment.glsl, as shown in the following code:
+
+precision mediump float;
+in vec2 TexCoord;
+uniform sampler2D Tex1;
+layout(location = 0) out vec4 outColor;
+
+uniform float BarrelPower;
+uniform float ScreenCoordX;
+
+vec2 BarrelDistortion(vec2 p){
+    float theta  = atan(p.y, p.x);
+    float radius = sqrt(p.x*p.x + p.y*p.y); 
+    radius = pow(radius, BarrelPower);
+    p.x = radius * cos(theta);
+    p.y = radius * sin(theta);
+    return (p + 0.5);
+}
+
+vec2 xy, uv;
+float distance;
+void main(){
+      if(gl_FragCoord.x > ScreenCoordX){
+          // The range of text coordinate is from (0,0)
+          // to (1,1). Assuming center of the Texture
+          // coordinate system middle of the screen.
+          // Shift all coordinate wrt to the new 
+          // center. This will be the new position 
+          // vector of the displaced coordinate.
+          xy = TexCoord - vec2(0.5);
+        
+         // Calculate the distance from the center point.
+         distance = sqrt(xy.x*xy.x+xy.y*xy.y); 
+        
+         float radius = 0.35;
+         // Apply the Barrel Distortion if the distance
+         // is within the radius. Our radius is half of 
+         // the ST dimension.
+         uv = (distance < radius?BarrelDistortion(xy):TexCoord);
+        
+         if( distance > radius-0.01 && distance < radius+0.01 ){
+             outColor = vec4(1.0, 0.0, 0.0,1.0);
+         }
+         else{
+             // Fetch the UV from Texture Sample
+             outColor = texture(Tex1, uv);
+         }
+     }
+     else{
+        outColor = texture(Tex1, TexCoord);
+     }
+}
+How it works...
+This recipe first renders the scene to a FBO's color texture, which is then shared with the SimpleTexture class and applied to the quad geometry with texture coordinates ranging from (0.0, 0.0) to (1.0, 1.0). The quad vertex and texture information are provided to the vertex and fragment shader to process the geometry and fragment information. The barrel distortion technique is implemented in the fragment shader, where each incoming texture coordinate is temporarily converted to the polar coordinate to produce the fisheye effect.
+
+Texture coordinates are first translated in the center (0.5, 0.5) and the distance of these translated texture coordinates is computed from the center. If the translated texture coordinates (xy) falls outside the given threshold of 0.35 radius, then unaltered texture coordinates (TexCoord) are used to fetch the sample from Tex1; otherwise, this coordinate (xy) is applied to the barrel distortion with the BarrelDistortion function. The following image shows the radius of the red circle. The BarrelDistortion function first calculates the length of the texture coordinate with respect to the center of the logical circle. This obtained length is altered using the barrel power, which shrinks or expands the length. The following image shows different results obtained from various barrel powers (1.0, 0.5, 0.3, and 2.0).
+
+This altered length is then multiplied by the slope of texture coordinates along the S (horizontal) and T (vertical) components, which will result in a new set of translated texture coordinates. These texture coordinates are retranslated into their old origin (bottom, left). Finally, this retranslated texture coordinate is used to calculate the sampled texture from the input texture coordinate:
+
+How it works...
+There's more...
+When the barrel distortion is applied to the geometry, it distorts the physical shape of the geometry. The following images show the application of the barrel distortion on different meshes. You can explore this recipe using the BarrelDistortion_Vtx_Shdr source code provided in this chapter:
+
+There's more...
+The working logic of this recipe is similar to the previous one except the fact that it's now implemented in the vertex shader. Here, we do not need to translate the texture coordinate from the center because, by default, the origin always is the center of the Cartesian coordinate system.
+
+Use the following code in the vertex shader to apply barrel distortion on the vertex shader:
+
+layout(location = 0) in vec4  VertexPosition;
+layout(location = 1) in vec3  Normal;
+uniform mat4   ModelViewProjectionMatrix, ModelViewMatrix;
+uniform mat3    NormalMatrix;
+out vec3         normalCoord, eyeCoord, ObjectCoord;
+uniform float   BarrelPower;
+
+vec4 BarrelDistortion(vec4 p){
+    vec2 v = p.xy / p.w;
+    float radius = length(v);
+   // Convert to polar coords
+    if (radius > 0.0){ 
+        float theta = atan(v.y,v.x);
+        radius = pow(radius, BarrelPower);
+    // Apply distortion
+        // Convert back to Cartesian
+        v.x = radius * cos(theta); 
+        v.y = radius * sin(theta);
+        p.xy = v.xy * p.w;
+    }
+    return p;
+}
+
+void main(){
+    normalCoord = NormalMatrix * Normal;
+    eyeCoord    = vec3 ( ModelViewMatrix * VertexPosition );
+    ObjectCoord = VertexPosition.xyz;
+    gl_Position = BarrelDistortion(ModelViewProjectionMatrix*
+    VertexPosition);
+} 
+See also
+Refer to the Generating the polka dot pattern recipe in Chapter 6, Working with Shaders
